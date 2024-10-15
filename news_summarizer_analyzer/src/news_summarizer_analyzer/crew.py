@@ -12,9 +12,9 @@ class NewsSummarizerAnalyzerCrew():
 	"""NewsSummarizerAnalyzer crew"""
 
 	@agent
-	def researcher(self) -> Agent:
+	def news_collector(self) -> Agent:
 		return Agent(
-			config=self.agents_config['researcher'],
+			config=self.agents_config['news_collector'],
 			# tools=[MyCustomTool()], # Example of custom tool, loaded on the beginning of file
 			verbose=True
 		)
