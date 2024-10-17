@@ -2,7 +2,10 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 
 
-from news_summarizer_analyzer.tools.custom_tool import MyCustomTool
+from news_summarizer_analyzer.agents.news_collector import NewsAPITool
+from news_summarizer_analyzer.agents.fact_checker import FactCheckerTool
+from news_summarizer_analyzer.agents.summary_writer import SummaryWriterTool
+from news_summarizer_analyzer.agents.trend_analyzer import TrendAnalyzerTool
 
 # Check our tools documentations for more information on how to use them
 from crewai_tools import SerperDevTool
