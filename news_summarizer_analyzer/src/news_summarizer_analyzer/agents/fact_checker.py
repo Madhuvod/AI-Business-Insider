@@ -2,11 +2,11 @@ from crewai_tools import BaseTool
 from typing import Dict, List, Any
 from pydantic import Field
 import requests
-
+import os
 class FactCheckerTool(BaseTool):
     name: str = "Fact Checker"
     description: str = "Verifies the factual accuracy of news articles using Google Fact Check API."
-    api_key: str = Field(..., description="API key for the Google Fact Check API")
+    api_key: str = Field(default_factory=lambda: os.getenv("GOOGLE_FACT_CHECK_API_KEY", ""), description="API key for the Google Fact Check API")
     base_url: str = "https://factchecktools.googleapis.com/v1alpha1/claims:search"
 
     def _run(self, article: Dict[str, str]) -> Dict[str, Any]:

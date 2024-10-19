@@ -1,5 +1,10 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+import os
+import sys
+
+# parent_dir = os.path.dirname((os.path.abspath(__file__)))
+# sys.path.insert(0, parent_dir)
 
 
 from news_summarizer_analyzer.agents.news_collector import NewsAPITool
@@ -18,27 +23,30 @@ class NewsSummarizerAnalyzerCrew():
 	def news_collector(self) -> Agent:
 		return Agent(
 			config=self.agents_config['news_collector'],
-			# tools=[MyCustomTool()], # Example of custom tool, loaded on the beginning of file
+			tools=[NewsAPITool()],
 			verbose=True
 		)
 
 	@agent
-	def reporting_analyst(self) -> Agent:
+	def fact_checker(self) -> Agent:
 		return Agent(
-			config=self.agents_config['reporting_analyst'],
+			config=self.agents_config['fact_checker'],
+			tools=[FactCheckerTool()],
 			verbose=True
 		)
 
 	@task
-	def research_task(self) -> Task:
+	def summary_writer(self) -> Task:
 		return Task(
-			config=self.tasks_config['research_task'],
+			config=self.tasks_config['summary_writer'],
+			tools=[SummaryWriterTool()],
 		)
 
 	@task
-	def reporting_task(self) -> Task:
+	def trend_analyzer(self) -> Task:
 		return Task(
-			config=self.tasks_config['reporting_task'],
+			config=self.tasks_config['trend_analyzer'],
+			tools=[TrendAnalyzerTool()],
 			output_file='report.md'
 		)
 

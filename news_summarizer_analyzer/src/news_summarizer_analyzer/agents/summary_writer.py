@@ -2,15 +2,16 @@ from crewai_tools import BaseTool
 from typing import Dict
 from pydantic import Field
 from openai import OpenAI
+import os
 
 class SummaryWriterTool(BaseTool):
     name: str = "Summary Writer"
     description: str = "Generates concise summaries of news articles."
-    api_key: str = Field(..., description="API key for OpenAI")
+    api_key: str = Field(default_factory=lambda: os.getenv("OPENAI_API_KEY", ""), description="API key for OpenAI")
 
     def _run(self, article: Dict[str, str]) -> str:
         """
-        Generate a summary for the given article using OpenAI API.
+        Generate a summary for the given articles using OpenAI API.
         
         :param article: A dictionary containing article details.
         :return: A summary of the article.
