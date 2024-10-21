@@ -31,10 +31,8 @@ class NewsAPITool(BaseTool):
                     "title": article["title"],
                     "url": article["url"],
                     "source": article["source"]["name"],
-                    "published_date": article["publishedAt"],
-                    "snippet": article["description"]
                 }
-                for article in articles[:10]
+                for article in articles[:5]
             ]
         except requests.RequestException as e:
             raise Exception(f"Error fetching news articles: {str(e)}")

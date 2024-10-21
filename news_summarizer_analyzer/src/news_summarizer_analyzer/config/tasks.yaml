@@ -8,23 +8,22 @@ research_task:
     - "title": The title of the news article.
     - "url": The URL where the article can be accessed.
     - "source": The name of the publication or source.
-    - "published_date": The date and time the article was published in ISO 8601 format.
-    - "snippet": A brief summary or snippet of the article content.
+    
   agent: news_collector
 
 fact_check_task:
   description: >
-    Review the context you got and verify the accuracy of the information.
+    Verify the accuracy of news articles collected on {topic}. 
+    Use the Fact Checker tool for each article provided by the news collector.
+    Only return the titles of articles that are determined to be factual.
   expected_output: >
-    A dictionary containing:
-    - "verified_facts": A list of dictionaries, each with:
-      - "claim": The statement or claim being verified.
-      - "verification": A boolean indicating if the claim is verified.
-      - "source": The source of the verification.
-    - "unverified_claims": A list of claims that could not be verified.
-    - "contradictions": A list of dictionaries, each with:
-      - "claim": The statement or claim with contradictions.
-      - "sources": A list of sources that contradict each other.
+    A list of strings, where each string is the title of an article that has been verified as factual.
+    For example:
+    [
+      "AI Breakthrough in Medical Diagnosis",
+      "New Study Shows Promise in Quantum Computing",
+      "Tech Giants Collaborate on Ethical AI Guidelines"
+    ]
   agent: fact_checker
 
 summary_task:
