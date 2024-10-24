@@ -80,7 +80,7 @@ class NewsSummarizerAnalyzerCrew:
 
     def news_collector_task(self) -> Task:
         return Task(
-            description="Gather the latest relevant news articles on the specified topic",
+            description="Gather the latest relevant news articles on the specified topic: {topic}",
             agent=self.news_collector(),
             expected_output="A list of dictionaries, each containing 'title', 'url', and 'snippet' keys for each relevant news article."
         )
@@ -107,7 +107,7 @@ class NewsSummarizerAnalyzerCrew:
 
     def trend_analyzer_task(self) -> Task:
         return Task(
-            description="Analyze trends in the summarized news",
+            description="Analyze trends in the summarized news. The input will be a dictionary containing the summary of all topics.",
             agent=self.trend_analyzer(),
             expected_output="An insightful analysis report identifying emerging trends, patterns, and potential future developments based on the summarized news data, including strategic implications and potential business ideas."
         )

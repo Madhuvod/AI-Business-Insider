@@ -1,27 +1,32 @@
 from crewai_tools import BaseTool
-from typing import List, Dict
+from typing import Dict, List, Union
 from openai import OpenAI
 import os
-from pydantic import Field
+from pydantic import Field, BaseModel
 
 class TrendAnalyzerTool(BaseTool):
     name: str = "Trend Analyzer"
     description: str = "Analyzes trends across multiple news article summaries and suggests potential outcomes and business ideas."
     api_key: str = Field(default_factory=lambda: os.getenv("OPENAI_API_KEY", ""), description="API key for OpenAI")
 
-    def _run(self, summaries: List[str]) -> Dict[str, List[str]]:
+    def _run(self, input_data: Union[str, Dict]) -> Dict[str, list]:
         """
         Analyze summaries to identify trends and suggest outcomes and business ideas.
         
-        :param summaries: A list of article summaries.
+        :param input_data: A string or dictionary containing the summary to analyze.
         :return: A dictionary with trends, outcomes, and business ideas.
         """
         self.api_key = os.getenv("OPENAI_API_KEY")  # Ensure this is set securely
         client = OpenAI(api_key=self.api_key)
-        # Combine summaries into a single prompt
-        combined_summaries = " ".join(summaries)
+
+        if isinstance(input_data, dict):
+            summary_data = input_data.get('summary', input_data)
+        else:
+            summary_data = input_data
+
         prompt = (
-            f"Analyze the following article summaries for trends and patterns: {combined_summaries} "
+            f"Analyze the following news summary for trends and patterns:\n\n"
+            f"{summary_data}\n\n"
             "Based on these trends, suggest potential outcomes and a business idea."
         )
 
@@ -34,14 +39,19 @@ class TrendAnalyzerTool(BaseTool):
             max_tokens=300
         )
 
-        analysis = response['choices'][0]['message']['content'].strip()
+        analysis = response.choices[0].message.content.strip()
 
-        # For simplicity, assume the response is structured as needed
+        # Parse the analysis to extract trends, outcomes, and business ideas
+        lines = analysis.split('\n')
+        trends = [line.strip() for line in lines if line.startswith('Trend:')]
+        outcomes = [line.strip() for line in lines if line.startswith('Outcome:')]
+        business_ideas = [line.strip() for line in lines if line.startswith('Business Idea:')]
+
         return {
-            "trends": ["Trend 1", "Trend 2"],  # Extracted from analysis
-            "outcomes": ["Outcome 1", "Outcome 2"],  # Extracted from analysis
-            "business_ideas": ["Business Idea 1"]  # Extracted from analysis
+            "trends": trends,
+            "outcomes": outcomes,
+            "business_ideas": business_ideas
         }
 
-    async def _arun(self, summaries: List[str]) -> Dict[str, List[str]]:
-        return self._run(summaries)
+    async def _arun(self, input_data: Union[str, Dict]) -> Dict[str, list]:
+        return self._run(input_data)

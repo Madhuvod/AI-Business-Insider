@@ -10,7 +10,9 @@ def main():
     if not os.getenv("OPENAI_API_KEY"):
         raise ValueError("OPENAI_API_KEY environment variable is not set")
 
-    topic = "Artificial Intelligence"  # You can change this or get it from command line arguments
+    # Prompt the user for the topic
+    topic = input("Please enter the topic you want to research: ")
+
     crew = NewsSummarizerAnalyzerCrew()
     result = crew.kickoff(topic)
     print(result)
