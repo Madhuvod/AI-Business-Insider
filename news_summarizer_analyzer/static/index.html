@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Analyzer and Summarizer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a202c;
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #2d3748;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #ecc94b;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #4a5568;
+            background-color: #2d3748;
+            color: #e2e8f0;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #ecc94b;
+            color: #1a202c;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #d69e2e;
+        }
+        .result {
+            margin-top: 2rem;
+            background-color: #4a5568;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .highlight {
+            background-color: #553c9a;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        #loading {
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>News Analyzer and Summarizer</h1>
+        <input type="text" id="topic" placeholder="Enter topic for news research">
+        <button onclick="analyze()">Analyze & Summarize</button>
+        <div id="loading">Analyzing... Please wait.</div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        async function analyze() {
+            const topic = document.getElementById('topic').value;
+            const loadingDiv = document.getElementById('loading');
+            const resultDiv = document.getElementById('result');
+            
+            loadingDiv.style.display = 'block';
+            resultDiv.innerHTML = '';
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ topic })
+                });
+                const data = await response.json();
+                displayResult(data);
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = '<p>An error occurred while fetching the analysis. Please try again.</p>';
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h2>Analysis Result</h2>
+                <p><strong>Collected News:</strong> ${formatList(data.collected_news)}</p>
+                <p><strong>Verified Articles:</strong> ${formatList(data.verified_articles)}</p>
+                <p><strong>Summary:</strong> ${data.summary}</p>
+                <div class="highlight"><strong>Trend Analysis:</strong> ${data.trend_analysis}</div>
+            `;
+        }
+
+        function formatList(list) {
+            if (Array.isArray(list)) {
+                return '<ul>' + list.map(item => `<li>${item}</li>`).join('') + '</ul>';
+            }
+            return JSON.stringify(list);
+        }
+    </script>
+</body>
+</html>
