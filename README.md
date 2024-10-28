@@ -29,8 +29,7 @@ This tool comprises four key agents:
 ### 3. Summary Writer
 - **Task**: Produces concise summaries of the verified information.
 - **Tools**: 
-  - Hugging Face's [BART](https://huggingface.co/facebook/bart-large-cnn)
-  - [nansgpt-3k](https://nansgpt-3k.com) (for large language model tasks)
+  - Hugging Face's [BART](https://huggingface.co/facebook/bart-large-cnn) / GPT 4o (now)
 
 ### 4. Trend Analyzer
 - **Task**: Analyzes trends and patterns across collected and summarized news stories.
@@ -49,10 +48,9 @@ This tool comprises four key agents:
 
 ## Technologies Used
 
-- **Frontend**: HTML, CSS, JavaScript (with Fetch API)
+- **Frontend**: Streamlit (underdevelopment)
 - **Backend**: 
   - Python (with FastAPI for the API backend)
-  - Flask (optional integration)
 - **AI/ML Tools**: 
   - CrewAI for orchestrating AI agents
   - Hugging Face for NLP-based models
@@ -79,5 +77,5 @@ This tool comprises four key agents:
    ```
    python src/news_summarizer_analyzer/main.py
    ```
-
+**TODO**: Thinking of using A voice agent for this tooo
 ![image](IMG_3530.heic)
