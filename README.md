@@ -1,7 +1,8 @@
 ## AI Business Insider - A News Summarizer and Analyst - CrewAI 
 
+- Problem Statement: This is quite Personal to me, since my 1st year of Uni, I always wanted to be an Entreprenuer. Back then, I was constantly looking for a gap in the market, a problem that I can solve by constantly by reading news articles extensively, which was a very hard task. I have build this AI Agent News Analyzer that gives me Business Ideas regarding a particular topic. I have realised now that there's no perfect idea -  atleast in the tech space. You have to build stuff and gain experience working with multiple people increasing your odds of finding a problem to work on rather than reading news.
 
-This project is a web-based tool that helps users research a news topic, fact-check information, summarize key findings, and analyze trends. It leverages multiple AI agents to collect, verify, and analyze news, enabling users to extract insights and identify key opportunities across various news articles. The application uses [CrewAI](https://crewai.com/) to orchestrate these tasks and provide an interactive experience.
+This project is a News Engine that helps users research a news topic, fact-check information, summarize key findings, and analyze trends to help find their Potential Business Ideas for their own Company!. It leverages multiple AI agents to collect, verify, and analyze news, enabling users to extract insights and identify key opportunities across various news articles. The application uses [CrewAI](https://crewai.com/) to orchestrate these tasks and provide an interactive experience.
 
 ## Features
 
