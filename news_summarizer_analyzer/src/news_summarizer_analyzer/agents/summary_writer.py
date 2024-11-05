@@ -8,7 +8,7 @@ class Article(BaseModel):
     name: str
 
 class SummaryWriterInput(BaseModel):
-    articles: str  # Change from List[Article] to str
+    articles: str  # Changed from List[Article] to str because of an errorr
 
 class SummaryWriterTool(BaseTool):
     name: str = "Summary Writer"

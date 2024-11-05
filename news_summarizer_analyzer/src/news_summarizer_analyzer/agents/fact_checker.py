@@ -39,7 +39,7 @@ class FactCheckerTool(BaseTool):
         Returns:
             A list of titles of articles that are considered factual.
         """
-        # Ensure articles is a list of Article objects
+        # Ensuring articles is a list of Article objects
         if isinstance(articles, str):
             raise ValueError("Expected a list of Article objects, got a string")
             
