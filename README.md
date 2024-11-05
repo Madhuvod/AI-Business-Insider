@@ -60,23 +60,58 @@ This tool comprises four key agents:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Madhuvod/news_summarizer_analyzer.git
-   cd news_summarizer_analyzer
+   git clone https://github.com/Madhuvod/AI-Business-Insider.git
+   cd AI-Business-Insider
    ```
 
-2. Set up your environment variables:
+2. Create and activate a virtual environment:
    ```bash
-   NEWS_API_KEY=your_news_api_key
+   # For macOS/Linux
+   python -m venv venv
+   source venv/bin/activate
+
+   # For Windows
+   python -m venv venv
+   .\venv\Scripts\activate
+   ```
+
+3. Install the required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   (after doing this, sometimes a few packages might not be installed - so installed those 2-3 packages seprately, or reload the IDE if any import errors showing)
+
+4. Create a new .env file and set up your environment variables:
+   ```bash
+   # Get API keys from:
+   # - News API: https://newsapi.org/account
+   # - Google Fact Check: https://developers.google.com/fact-check/tools/api
+   # - OpenAI: https://platform.openai.com/api-keys
+
+   NEWS_API_KEY=your_news_api_key 
    GOOGLE_FACT_CHECK_KEY=your_google_fact_check_key
    OPENAI_API_KEY=your_openai_api_key
    ```
 
-3. Run the application:
-   ```
-   python src/news_summarizer_analyzer/main.py
+5. Run the application (in two different terminals):
+   ```bash
+   # Terminal 1 - Start the backend
+   python news_summarizer_analyzer/src/news_summarizer_analyzer/main.py
+
+   # Terminal 2 - Start the Streamlit frontend
    streamlit run news_summarizer_analyzer/src/news_summarizer_analyzer/streamlit_app.py
    ```
-   (in two different terminals for better readability)
-   
+
+## Development Setup
+
+If you're contributing to the project:
+```bash
+# Install in development mode
+pip install -e .
+
+# Install additional development dependencies
+pip install pytest python-dotenv
+```
+
 **TODO**: Thinking of using A voice agent for this tooo
 ![image](IMG_3530.heic)
