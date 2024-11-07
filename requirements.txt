@@ -7,3 +7,4 @@ fastapi
 python-dotenv
 uvicorn
 streamlit
+crewai
