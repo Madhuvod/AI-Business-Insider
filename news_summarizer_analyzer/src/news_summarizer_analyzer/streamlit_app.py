@@ -6,7 +6,9 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+# Get backend URL based on environment
+is_local = os.getenv("IS_LOCAL", "false").lower() == "true"
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000" if is_local else "https://your-render-backend-url.onrender.com")
 
 st.title("The AI Business Insider")
 
