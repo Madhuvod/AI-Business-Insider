@@ -4,6 +4,7 @@ import os
 import time
 from pathlib import Path
 
+
 def get_script_directory():
     """Get the directory of the current script"""
     return Path(__file__).parent.absolute()
