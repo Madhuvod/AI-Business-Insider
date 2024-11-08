@@ -10,6 +10,10 @@ except ImportError:
     print("sqlite3 is not available in your Python installation")
     sys.exit(1)
 
+# Add these constants at the top
+API_PORT = int(os.getenv("API_PORT", 8000))
+STREAMLIT_PORT = int(os.getenv("STREAMLIT_PORT", 8501))
+
 def get_script_directory():
     """Get the directory of the current script"""
     return Path(__file__).parent.absolute()
@@ -17,10 +21,11 @@ def get_script_directory():
 def run_services():
     """Run both FastAPI and Streamlit services"""
     try:
-
         script_dir = get_script_directory()
         
-
+        # Update environment variables
+        os.environ["BACKEND_URL"] = f"http://localhost:{API_PORT}"
+        
         api_process = subprocess.Popen([
             sys.executable,
             str(script_dir / "main.py")
@@ -37,8 +42,8 @@ def run_services():
         ])
         
         print("Both services are running!")
-        print("FastAPI: http://localhost:8000")
-        print("Streamlit: http://localhost:8501")
+        print("FastAPI: http://localhost:{API_PORT}")
+        print("Streamlit: http://localhost:{STREAMLIT_PORT}")
         
         try:
    
@@ -57,5 +62,4 @@ def run_services():
         sys.exit(1)
 
 if __name__ == "__main__":
-    os.environ["BACKEND_URL"] = "http://localhost:8000"
     run_services() 
