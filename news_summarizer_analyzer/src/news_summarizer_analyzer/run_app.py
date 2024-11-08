@@ -4,6 +4,11 @@ import os
 import time
 from pathlib import Path
 
+try:
+    import sqlite3
+except ImportError:
+    print("sqlite3 is not available in your Python installation")
+    sys.exit(1)
 
 def get_script_directory():
     """Get the directory of the current script"""
