@@ -8,3 +8,4 @@ python-dotenv
 uvicorn
 streamlit
 crewai
+sqlite3

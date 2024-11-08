@@ -14,7 +14,6 @@ load_dotenv()
 
 app = FastAPI()
 
-# Add CORS middleware with both localhost and deployed URLs
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -26,7 +25,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Health check endpoint
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "FastAPI is running"}
+
+# Health check endpoint for Render’s health check
 @app.get("/health")
 async def health_check():
     logger.info("Health check requested")
@@ -68,5 +71,5 @@ async def analyze_topic(request: TopicRequest) -> dict:
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.getenv("PORT", 8000))
+    port = int(os.getenv("PORT", 10000))  # Explicitly set to 10000
     uvicorn.run(app, host="0.0.0.0", port=port)
