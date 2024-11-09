@@ -4,26 +4,17 @@ import os
 import time
 from pathlib import Path
 
-try:
-    import sqlite3
-except ImportError:
-    print("sqlite3 is not available in your Python installation")
-    sys.exit(1)
-
-# Define ports
-API_PORT = 8000  # FastAPI port
-STREAMLIT_PORT = os.getenv("PORT", "8501")  # Use Render's environment PORT for Streamlit
+# Define FastAPI port and let Render handle the Streamlit port
+API_PORT = 8000
 
 def get_script_directory():
-    """Get the directory of the current script"""
     return Path(__file__).parent.absolute()
 
 def run_services():
-    """Run both FastAPI and Streamlit services"""
     try:
         script_dir = get_script_directory()
-        
-        # Start FastAPI on port 8000
+
+        # Start FastAPI explicitly on port 8000
         api_process = subprocess.Popen([
             sys.executable,
             str(script_dir / "main.py"),
@@ -31,8 +22,8 @@ def run_services():
         ])
         print(f"Starting FastAPI server on port {API_PORT}")
         time.sleep(3)
-        
-        # Start Streamlit using the environment-defined PORT
+
+        # Start Streamlit without explicitly setting the port, letting Render handle it
         streamlit_process = subprocess.Popen([
             sys.executable,
             "-m", "streamlit", "run",
@@ -41,8 +32,8 @@ def run_services():
         ])
         print("Both services are running!")
         print(f"FastAPI: http://localhost:{API_PORT}")
-        print(f"Streamlit: http://localhost:{STREAMLIT_PORT}")
-        
+        print("Streamlit will use the Render-assigned primary port")
+
         try:
             streamlit_process.wait()
             api_process.wait()
@@ -53,7 +44,6 @@ def run_services():
             streamlit_process.wait()
             api_process.wait()
             print("Services stopped.")
-            
     except Exception as e:
         print(f"Error starting services: {str(e)}")
         sys.exit(1)
