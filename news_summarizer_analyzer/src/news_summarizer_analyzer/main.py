@@ -17,7 +17,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://ai-business-insider.streamlit.app",
+        "https://ai-business-insiderrr.streamlit.app",
         "http://localhost:8501",
     ],
     allow_credentials=True,
