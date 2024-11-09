@@ -12,7 +12,7 @@ except ImportError:
 
 # Define ports
 API_PORT = 8000  # Fixed FastAPI port for backend
-STREAMLIT_PORT = os.getenv("PORT")  # Use Render's main environment PORT for Streamlit
+STREAMLIT_PORT = os.getenv("PORT", "8501")  # Use Render's main environment PORT for Streamlit
 
 def get_script_directory():
     """Get the directory of the current script"""
