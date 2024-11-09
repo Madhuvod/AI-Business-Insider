@@ -1,14 +1,9 @@
 import streamlit as st
 import requests
 import os
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
-
-# Get backend URL based on environment
-is_local = os.getenv("IS_LOCAL", "false").lower() == "true"
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000" if is_local else "https://your-render-backend-url.onrender.com")
+# Set backend URL to local FastAPI instance
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 st.title("The AI Business Insider")
 
@@ -24,7 +19,6 @@ except Exception as e:
     st.sidebar.error("❌ Backend Not Connected")
     st.sidebar.info(f"Backend URL: {BACKEND_URL}")
 
-# Get user input
 topic = st.text_input("Enter a topic to analyze:", key="topic_input")
 
 if st.button("Analyze"):
