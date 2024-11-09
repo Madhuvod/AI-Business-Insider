@@ -10,9 +10,9 @@ except ImportError:
     print("sqlite3 is not available in your Python installation")
     sys.exit(1)
 
-# Constants for ports
-API_PORT = 8000  # Fixed for FastAPI
-STREAMLIT_PORT = int(os.getenv("PORT", 8501))  # Render's main port
+# Override Render's PORT with our desired ports
+os.environ["PORT"] = "8501"  # Force Streamlit port
+API_PORT = 8000  # FastAPI port
 
 def get_script_directory():
     """Get the directory of the current script"""
@@ -23,28 +23,26 @@ def run_services():
     try:
         script_dir = get_script_directory()
         
-        # Start FastAPI explicitly on port 8000
+        # Start FastAPI on port 8000
         api_process = subprocess.Popen([
             sys.executable,
             str(script_dir / "main.py"),
             "--port", str(API_PORT)
         ])
-
-        print("Starting FastAPI server on port 8000")
+        print(f"Starting FastAPI server on port {API_PORT}")
         time.sleep(3)
         
-        # Start Streamlit on Render's primary port (from environment variable)
+        # Force Streamlit to use port 8501
         streamlit_process = subprocess.Popen([
             sys.executable,
             "-m", "streamlit", "run",
             str(script_dir / "streamlit_app.py"),
-            "--server.port", str(STREAMLIT_PORT),
-            "--server.address", "0.0.0.0"  # Required for external access
+            "--server.port", "8501",  # Hardcode the port
+            "--server.address", "0.0.0.0"
         ])
-
         print("Both services are running!")
         print(f"FastAPI: http://localhost:{API_PORT}")
-        print(f"Streamlit: http://localhost:{STREAMLIT_PORT}")
+        print(f"Streamlit: http://localhost:8501")
         
         try:
             streamlit_process.wait()

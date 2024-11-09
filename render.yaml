@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: your-app-name
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python news_summarizer_analyzer/src/news_summarizer_analyzer/run_app.py
+    envVars:
+      - key: PORT
+        value: 8501

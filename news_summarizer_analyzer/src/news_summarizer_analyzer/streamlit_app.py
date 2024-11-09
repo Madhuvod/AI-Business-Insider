@@ -3,7 +3,7 @@ import requests
 import os
 
 # Set backend URL to local FastAPI instance
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "https://ai-business-insiderrr.onrender.com")
 
 st.title("The AI Business Insider")
 
