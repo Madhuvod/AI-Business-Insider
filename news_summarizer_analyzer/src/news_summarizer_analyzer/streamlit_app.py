@@ -2,32 +2,39 @@ import streamlit as st
 import requests
 import os
 
-# Set backend URL to the Render-deployed FastAPI instance
-BACKEND_URL = os.getenv("BACKEND_URL", "https://ai-business-insiderrr.onrender.com")
+# Add development/production URL handling
+is_production = os.getenv("ENVIRONMENT") == "production"
+BACKEND_URL = os.getenv(
+    "BACKEND_URL",
+    "https://ai-business-insiderrr.onrender.com" if is_production else "http://localhost:8000"
+)
 
 st.title("The AI Business Insider")
 
-# System Status Section
 st.sidebar.markdown("### System Status")
-connection_status_placeholder = st.sidebar.empty()
+
+# SSL verification conditionally based on environment
+verify_ssl = is_production
 
 try:
-    # Attempt to connect to the backend
-    health_check = requests.get(f"{BACKEND_URL}/health", timeout=5)
+    health_check = requests.get(
+        f"{BACKEND_URL}/health", 
+        timeout=5,
+        verify=verify_ssl
+    )
     if health_check.ok:
-        connection_status_placeholder.success("✅ Backend Connected")
+        st.sidebar.success("✅ Backend Connected")
         st.sidebar.info(f"Environment: {health_check.json().get('environment', 'unknown')}")
     else:
-        connection_status_placeholder.error("❌ Backend Error")
+        st.sidebar.error("❌ Backend Error")
+except requests.exceptions.SSLError:
+    st.sidebar.error("❌ SSL Certificate Error")
 except Exception as e:
-    # If connection fails, show only this error message
-    connection_status_placeholder.error("❌ Backend Not Connected")
+    st.sidebar.error("❌ Backend Not Connected")
     st.sidebar.info(f"Backend URL: {BACKEND_URL}")
 
-# Input Section
 topic = st.text_input("Enter a topic to analyze:", key="topic_input")
 
-# Analysis Button and Results
 if st.button("Analyze"):
     if topic:
         with st.spinner("Analyzing..."):
