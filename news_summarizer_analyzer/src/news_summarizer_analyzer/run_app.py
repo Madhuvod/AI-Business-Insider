@@ -37,7 +37,6 @@ def run_services():
             sys.executable,
             "-m", "streamlit", "run",
             str(script_dir / "streamlit_app.py"),
-            "--server.port", str(STREAMLIT_PORT),
             "--server.address", "0.0.0.0"
         ])
         print("Both services are running!")
